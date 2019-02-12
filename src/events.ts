@@ -3,6 +3,7 @@ import Discord = require('discord.js')
 export interface IEventHandler {
     getCommands: Function
     client: Discord.Client
+    name: string
 
     handle(...args: any[]): any;
 }
