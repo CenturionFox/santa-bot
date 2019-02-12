@@ -37,5 +37,8 @@
 	"did not exist in the list of registered commands (prefix collision?)": "did not exist in the list of registered commands (prefix collision?)",
 	"Execute": "Execute",
 	"I don't know the command": "I don't know the command",
-	"Gift Exchange": "Gift Exchange"
+	"Gift Exchange": "Gift Exchange",
+	"Skipped registering command": "Skipped registering command",
+	"as it does not meet current trust requirements.": "as it does not meet current trust requirements.",
+	"Skipped registering event": "Skipped registering event"
 }

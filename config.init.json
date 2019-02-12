@@ -26,5 +26,7 @@
         "maxEntrants": "100"
       }
     }
-  ]
+  ],
+  "trustAllCmd": false,
+  "trustAllEvt": false
 }

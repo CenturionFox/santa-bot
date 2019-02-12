@@ -1,4 +1,6 @@
 import * as config from './config.json'
+import regcmd from './regcmd.json'
+import regevt from './regevt.json'
 import Discord = require('discord.js')
 import fs = require('fs')
 import i18n = require('i18n')
@@ -21,6 +23,9 @@ fs.readdir(cmdDir, (err, items) => {
   if (err) return console.error(err)
   items.forEach(file => {
     if (!file.endsWith('.ts')) return console.warn(i18n.__('The file'),cmdDir.concat(file),i18n.__('is not a typescript module'))
+    if(config.trustAllCmd !== true && regcmd.indexOf(file.split('.')[0]) < 0) {
+      return console.warn(i18n.__("Skipped registering command"),file,i18n.__("as it does not meet current trust requirements."))
+    }
 
     try {
       const c_module = require(`${cmdDir}${file}`)
@@ -40,6 +45,9 @@ fs.readdir(evtDir, (err, items) => {
   if (err) return console.error(err)
   items.forEach(file => {
     if (!file.endsWith('.ts')) return console.warn(i18n.__('The file'),evtDir.concat(file),i18n.__('is not a typescript module'))
+    if(config.trustAllCmd !== true && regevt.indexOf(file.split('.')[0]) < 0) {
+      return console.warn(i18n.__("Skipped registering event"),file,i18n.__("as it does not meet current trust requirements."))
+    }
 
     const e_name = file.split('.')[0]
 
