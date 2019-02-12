@@ -2,6 +2,7 @@ import * as config from '../config.json'
 import Discord = require('discord.js')
 import i18n = require('i18n')
 import Enmap from 'enmap'
+import { sendGeneralHelpMessage } from './messages';
 
 /**
  * Provides basic structure for a bot command
@@ -28,8 +29,12 @@ export interface ICommand {
  * A command which will provide help information about the bot, the available commands, and information on specific commands.
  */
 export class HelpCommand implements ICommand {
+
+  /** The name of the command; in this case, "help", localized */
   name: string = i18n.__('help')
+  /** The syntax of the command */
   syntax: string = i18n.__('help [command]')
+  /** The command description */
   description: string = i18n.__('Provides a detailed overview of any command registered with the bot.')
 
   /**
@@ -38,34 +43,38 @@ export class HelpCommand implements ICommand {
    */
   constructor(public getCommands: Function) { }
 
+  /** Executes the command */
   public run(client: Discord.Client, message: Discord.Message, ...m_argv: string[]): any {
-    console.log(m_argv)
     var commands: Enmap<string, ICommand> = this.getCommands()
     var commandName: string = m_argv[0]
+    var prefix = getPrefix(message.guild)
+
     if (!commandName) {
-      var help = i18n.__("Hi! I'm the secret santa bot!").concat('\r\n')
-        .concat(i18n.__("To list all commands available, just send ")).concat('`').concat(config.prefix).concat(i18n.__('help')).concat(' ').concat(i18n.__('all')).concat('`\r\n')
-        .concat("Thanks <3")
-      return message.channel.send(help)
+      return sendGeneralHelpMessage(client, message)
     }
 
     var command: ICommand = commands.get(commandName)
     if (command) {
-      var help: string = i18n.__("Here's what I have for the command").concat(' "').concat(command.name).concat('":\r\n')
-        .concat(i18n.__('Usage')).concat(':```').concat(command.syntax).concat('```')
-        .concat(command.description);
-      return message.channel.send(help)
+      var helpMessage: string = command.description.concat('\r\n')
+        .concat(i18n.__('Usage')).concat(':```').concat(prefix).concat(command.syntax).concat('```');
+      return message.channel.send(helpMessage)
     }
 
     if (m_argv[0] == 'all') {
-      var help: string = i18n.__("Here's a list of all of the commands I can handle").concat(':\r\n');
+      var helpMessage: string = i18n.__("here's a list of all of the commands I can handle").concat(':\r\n');
       commands.forEach((value, key) => {
-        help = help.concat('\t•\t').concat(config.prefix).concat(key).concat(': `').concat(value.syntax).concat('`\r\n');
+        helpMessage = helpMessage.concat('\t•\t').concat(prefix).concat(key).concat(':  \t`').concat(prefix).concat(value.syntax).concat('`\r\n');
       });
-      return message.channel.send(help);
+      return message.reply(helpMessage);
     }
-    message.channel.send(i18n.__("I don't know the command").concat(' "').concat(m_argv[0]).concat('"!'))
+    message.reply(i18n.__("I don't know the command").concat(' "').concat(m_argv[0]).concat('"!'))
   }
+}
+
+export function getPrefix(guild: Discord.Guild):string {
+  if(!guild) return config.prefix.default
+
+  return config.prefix[guild.id] || config.prefix.default
 }
 
 export default class CommandRegistry {

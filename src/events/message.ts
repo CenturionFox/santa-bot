@@ -1,16 +1,17 @@
-import * as config from '../../config.json'
 import Discord = require('discord.js')
-import dcParser, { ParsedMessage } from 'discord-command-parser'
-import { ICommand } from '../commands'
+import dcParser from 'discord-command-parser'
+import i18n = require('i18n')
+import { ICommand, getPrefix } from '../commands'
 import { IEventHandler } from '../events'
 
 export default class MessageHandler implements IEventHandler {
     constructor(public getCommands: Function, public client: Discord.Client) { }
 
-    handle(...args: any[]) {
+    handle(message: Discord.Message, ..._args: any[]) {
 
-        var message: Discord.Message = args[0]
-        var parsedCommand = dcParser.parse(message, config.prefix);
+        var prefix = getPrefix(message.guild)
+
+        var parsedCommand = dcParser.parse(message, prefix);
 
         if(!parsedCommand.success) return
 
@@ -18,8 +19,11 @@ export default class MessageHandler implements IEventHandler {
         const c_name = parsedCommand.command
         const command: ICommand = this.getCommands().get(c_name) as ICommand;
 
-        if(!command) return console.warn(`${message.member.user.username}: Command \"${c_name}\" could not be found.`)
+        const senderId = message.member.displayName.concat('@').concat(message.guild.id).concat(':');
 
+        if(!command) return console.warn(senderId, i18n.__("Command"), c_name, i18n.__("did not exist in the list of registered commands (prefix collision?)"))
+
+        console.debug(senderId, i18n.__("Execute"), c_name, m_argv);
         command.run(this.client, message, ...m_argv)
     }
 
