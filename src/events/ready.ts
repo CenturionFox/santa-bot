@@ -6,6 +6,8 @@ import sendWelcomeMessage from "../messages"
 import { runInThisContext } from 'vm';
 
 export default class ReadyHandler implements IEventHandler {
+  name: string = "ready"
+
   constructor(public getCommands: Function, public client: Discord.Client) { }
   handle(..._args: any[]) {
     // register error handlers
