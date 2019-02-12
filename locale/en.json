@@ -1,6 +1,4 @@
 {
-	"help": "help",
-	"help [command]": "help [command]",
 	"Provides a detailed overview of any command registered with the bot.": "Provides a detailed overview of any command registered with the bot.",
 	"here's a list of all of the commands I can handle": "here's a list of all of the commands I can handle",
 	"Usage": "Usage",
@@ -12,9 +10,6 @@
 	"the guild prefix has been changed to": "the guild prefix has been changed to",
 	"you must specify a new prefix.": "you must specify a new prefix.",
 	"is not a typescript module": "is not a typescript module",
-	"setprefix": "setprefix",
-	"setprefix <prefix> (requires admin permissions)": "setprefix <prefix> (requires admin permissions)",
-	"Sets the guild prefix to a custom value.  You must have the Administrator privilege to use this command.": "Sets the guild prefix to a custom value.  You must have the Administrator privilege to use this command.",
 	"The file": "The file",
 	"Failed to register command in module": "Failed to register command in module",
 	"Successfully registered command": "Successfully registered command",
@@ -40,5 +35,8 @@
 	"Gift Exchange": "Gift Exchange",
 	"Skipped registering command": "Skipped registering command",
 	"as it does not meet current trust requirements.": "as it does not meet current trust requirements.",
-	"Skipped registering event": "Skipped registering event"
+	"Skipped registering event": "Skipped registering event",
+	"You can find out more by specifying one command specifically: ": "You can find out more by specifying one command specifically: ",
+	"You can find out more by specifying one command specifically": "You can find out more by specifying one command specifically",
+	"Sets the guild prefix to a custom value.  You must have administrative privileges to use this command.": "Sets the guild prefix to a custom value.  __You must have administrative privileges to use this command.__"
 }

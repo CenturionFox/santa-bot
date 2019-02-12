@@ -1,6 +1,7 @@
 import * as config from '../config.json'
 import Discord = require('discord.js')
 import i18n = require('i18n')
+import yparser = require('yargs-parser')
 import Enmap from 'enmap'
 import { sendGeneralHelpMessage } from './messages';
 
@@ -16,13 +17,15 @@ export interface ICommand {
   /** The command description. This is used when providing help information. */
   description: string
 
+  options: yparser.Options
+
   /**
    * Executes the command.
    * @param client - The client instance
    * @param message - The message instance
    * @param m_argv - The parsed command arguments
    */
-  run(client: Discord.Client, message: Discord.Message, ...m_argv: string[]): any;
+  run(client: Discord.Client, message: Discord.Message, args: yparser.Arguments): any;
 }
 
 /**
@@ -31,11 +34,22 @@ export interface ICommand {
 export class HelpCommand implements ICommand {
 
   /** The name of the command; in this case, "help", localized */
-  name: string = i18n.__('help')
+  name: string = 'help'
   /** The syntax of the command */
-  syntax: string = i18n.__('help [command]')
+  syntax: string = 'help\r\nhelp {-a|--all}\r\nhelp [-c|--command] *command*'
   /** The command description */
   description: string = i18n.__('Provides a detailed overview of any command registered with the bot.')
+
+  options: yparser.Options = {
+    alias: { 
+      command: ['-c'], 
+      all: ['-a'] 
+    },
+    string: ['command'],
+    configuration: {
+      "duplicate-arguments-array": false
+    }
+  }
 
   /**
    * Creates a new instance of the HelpCommand
@@ -44,35 +58,44 @@ export class HelpCommand implements ICommand {
   constructor(public getCommands: Function) { }
 
   /** Executes the command */
-  public run(client: Discord.Client, message: Discord.Message, ...m_argv: string[]): any {
+  public run(client: Discord.Client, message: Discord.Message, args: yparser.Arguments): any {
     var commands: Enmap<string, ICommand> = this.getCommands()
-    var commandName: string = m_argv[0]
     var prefix = getPrefix(message.guild)
 
-    if (!commandName) {
+    if(args._.length == 0 && !args['all'] && !args['command']) {
       return sendGeneralHelpMessage(client, message)
     }
 
+    if (args['all']) {
+      var helpMessage: string = i18n.__("here's a list of all of the commands I can handle").concat(':\r\n');
+      commands.forEach((value, key) => {
+        helpMessage = helpMessage.concat('\t•\t`').concat(key).concat('`:\r\n');
+          value.syntax.split('\r\n').forEach((option, i) => {
+            helpMessage = helpMessage.concat('\t\t•\t').concat(prefix).concat(option).concat('\r\n')
+          })
+      });
+      helpMessage = helpMessage.concat(i18n.__("You can find out more by specifying one command specifically")).concat(':\r\n\t\t')
+        .concat(prefix).concat('help [-c|--command] *command*')
+      return message.reply(helpMessage);
+    }
+
+    var commandName: string = args['command'] || args._[0]
     var command: ICommand = commands.get(commandName)
     if (command) {
       var helpMessage: string = command.description.concat('\r\n')
-        .concat(i18n.__('Usage')).concat(':```').concat(prefix).concat(command.syntax).concat('```');
+        .concat(i18n.__('Usage')).concat(':\r\n')
+      command.syntax.split('\r\n').forEach((option, i) => {
+        if (i > 0) helpMessage = helpMessage.concat('\r\n')
+        helpMessage = helpMessage.concat('\t•\t').concat(prefix).concat(option)
+      })
       return message.channel.send(helpMessage)
     }
-
-    if (m_argv[0] == 'all') {
-      var helpMessage: string = i18n.__("here's a list of all of the commands I can handle").concat(':\r\n');
-      commands.forEach((value, key) => {
-        helpMessage = helpMessage.concat('\t•\t').concat(prefix).concat(key).concat(':  \t`').concat(prefix).concat(value.syntax).concat('`\r\n');
-      });
-      return message.reply(helpMessage);
-    }
-    message.reply(i18n.__("I don't know the command").concat(' "').concat(m_argv[0]).concat('"!'))
+    message.reply(i18n.__("I don't know the command").concat(' "').concat(commandName).concat('"!'))
   }
 }
 
-export function getPrefix(guild: Discord.Guild):string {
-  if(!guild) return config.prefix.default
+export function getPrefix(guild: Discord.Guild): string {
+  if (!guild) return config.prefix.default
 
   return config.prefix[guild.id] || config.prefix.default
 }

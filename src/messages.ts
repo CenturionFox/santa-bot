@@ -21,16 +21,15 @@ export default function sendWelcomeMessage(client: Discord.Client, guild: Discor
         }
       })
       config.welcome.guilds[guild.id] = true
+      writeConfig(config)
     }
-
-    writeConfig(config)
   }
 }
 
 export function sendGeneralHelpMessage(client: Discord.Client, message: Discord.Message) {
   var helpMessage = i18n.__("hi! I'm").concat(' ').concat(message.guild.members.get(client.user.id).displayName).concat(', ').concat(i18n.__("the secret santa bot!")).concat('\r\n')
-        .concat(i18n.__("To list all the commands that I can understand, just send")).concat(' `').concat(getPrefix(message.guild)).concat(i18n.__('help')).concat(' ').concat(i18n.__('all')).concat('` ').concat(i18n.__("to any channel I can read.")).concat('\r\n')
-        .concat(i18n.__("You can also check out my documentation on")).concat(' https://www.github.com/centurionfox/santa-bot\r\n')
-        .concat(i18n.__("Thanks!")).concat(' :sparkling_heart:')
-      return message.reply(helpMessage)
+    .concat(i18n.__("To list all the commands that I can understand, just send")).concat(' `').concat(getPrefix(message.guild)).concat('help --all` ').concat(i18n.__("to any channel I can read.")).concat('\r\n')
+    .concat(i18n.__("You can also check out my documentation on")).concat(' https://www.github.com/centurionfox/santa-bot\r\n')
+    .concat(i18n.__("Thanks!")).concat(' :sparkling_heart:')
+  return message.reply(helpMessage)
 }
