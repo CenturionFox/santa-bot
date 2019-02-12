@@ -12,7 +12,7 @@ export default class MessageHandler implements IEventHandler {
 
   handle(message: Discord.Message, ..._args: any[]) {
 
-    var prefix = getPrefix(message.guild)
+    var prefix = getPrefix(message.guild) as string
 
     var parsedCommand = dcParser.parse(message, prefix);
 
@@ -28,9 +28,11 @@ export default class MessageHandler implements IEventHandler {
       return console.warn(senderId, i18n.__("Command"), c_name, i18n.__("did not exist in the list of registered commands (prefix collision?)")) 
     }
 
-    console.debug(senderId, i18n.__("Execute"), c_name, m_argv)
+    message.acknowledge()
 
     var p_argv = yparser(m_argv, command.options)
+    console.debug(senderId, i18n.__("Execute"), c_name, p_argv)
+
     command.run(this.client, message, p_argv)
   }
 
