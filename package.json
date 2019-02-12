@@ -18,14 +18,12 @@
   "dependencies": {
     "@types/i18n": "^0.8.3",
     "@types/node": "^10.12.24",
-    "argparse": "github:nodeca/argparse",
+    "discord-command-parser": "^1.2.1",
     "discord.js": "^11.4.2",
     "enmap": "^4.7.1",
     "i18n": "^0.8.3",
     "ts-node": "^8.0.2",
     "typescript": "^3.3.3"
   },
-  "devDependencies": {
-    "@types/argparse": "^1.0.35"
-  }
+  "devDependencies": {}
 }

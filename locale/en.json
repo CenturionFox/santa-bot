@@ -1,6 +1,11 @@
 {
-	"Provides assistance with command details and usage": "Provides assistance with command details and usage",
-	"The name of the command": "The name of the command",
-	"no value was given for the `commandName` parameter.": "no value was given for the `commandName` parameter.",
-	"Provides information about the usage of this command": "Provides information about the usage of this command"
+	"help": "help",
+	"help [command]": "help [command]",
+	"Provides a detailed overview of any command registered with the bot.": "Provides a detailed overview of any command registered with the bot.",
+	"Here's a list of all of the commands I can handle": "Here's a list of all of the commands I can handle",
+	"Here's what I have for the command": "Here's what I have for the command",
+	"Usage": "Usage",
+	"Hi! I'm the secret santa bot!": "Hi! I'm the secret santa bot!",
+	"To list all commands available, just send ": "To list all commands available, just send ",
+	"all": "all"
 }
