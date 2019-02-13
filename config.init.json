@@ -8,26 +8,28 @@
     "enabled": true,
     "guilds": {}
   },
-  "exchanges": [
-    {
-      "name": "Christmas Example",
-      "dates": {
-        "registrationStart": "12/01",
-        "registrationEnd": "12/12",
-        "drawDate": "12/14"
-      },
-      "messages": {
-        "registrationStart": "Hello @everyone!\r\nIt's christmastime :christmas_tree:! That means it's time for a new **gift exchange**!\r\nRegistration starts today and ends on the twelfth. Please enter your name before then by using the command `!register`.\r\nHappy exchanging!",
-        "registrationEnd":"Hello again @everyone,\r\n**Registration for the christmas exchange is now closed :tada:!** If you didn't manage to register in time, please message a moderator or use the command `!forceregister` if you have admin permissions.  We'll be drawing names on the 14th, so make sure you're in before then!",
-        "drawDate": "Hey @everyone! It's drawing time :confetti_ball:! Check your DMs for your exchange partner's information, and have a merry christmas :mother_christmas:!"
-      },
-      "entryConstraints": {
-        "roleRequired": true,
-        "minEntrants": "2",
-        "maxEntrants": "100"
+  "exchanges": {
+    "default": [
+      {
+        "name": "Christmas Example",
+        "dates": {
+          "registrationStart": "12/01",
+          "registrationEnd": "12/12",
+          "drawDate": "12/14"
+        },
+        "messages": {
+          "registrationStart": "Hello @everyone!\r\nIt's christmastime :christmas_tree:! That means it's time for a new **gift exchange**!\r\nRegistration starts today and ends on the twelfth. Please enter your name before then by using the command `!register`.\r\nHappy exchanging!",
+          "registrationEnd": "Hello again @everyone,\r\n**Registration for the christmas exchange is now closed :tada:!** If you didn't manage to register in time, please message a moderator or use the command `!forceregister` if you have admin permissions.  We'll be drawing names on the 14th, so make sure you're in before then!",
+          "drawDate": "Hey @everyone! It's drawing time :confetti_ball:! Check your DMs for your exchange partner's information, and have a merry christmas :mother_christmas:!"
+        },
+        "entryConstraints": {
+          "roleRequired": true,
+          "minEntrants": "2",
+          "maxEntrants": "100"
+        }
       }
-    }
-  ],
+    ]
+  },
   "trustAllCmd": false,
   "trustAllEvt": false
 }
