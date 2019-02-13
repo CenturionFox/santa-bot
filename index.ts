@@ -22,7 +22,7 @@ const cmdDir = `${__dirname}/src/commands/`
 fs.readdir(cmdDir, (err, items) => {
   if (err) return console.error(err)
   items.forEach(file => {
-    if (!file.endsWith('.ts')) return console.warn(i18n.__('The file'),cmdDir.concat(file),i18n.__('is not a typescript module'))
+    if (!(file.endsWith('.ts') || file.endsWith('js'))) return console.warn(i18n.__('The file'),cmdDir.concat(file),i18n.__('is not a typescript module'))
     if(config.trustAllCmd !== true && regcmd.indexOf(file.slice(0, file.length - 3)) < 0) {
       return console.warn(i18n.__("Skipped registering command"),file,i18n.__("as it does not meet current trust requirements."))
     }
@@ -43,7 +43,7 @@ const evtDir = `${__dirname}/src/events/`
 fs.readdir(evtDir, (err, items) => {
   if (err) return console.error(err)
   items.forEach(file => {
-    if (!file.endsWith('.ts')) return console.warn(i18n.__('The file'),evtDir.concat(file),i18n.__('is not a typescript module'))
+    if (!(file.endsWith('.ts') || file.endsWith('js'))) return console.warn(i18n.__('The file'),evtDir.concat(file),i18n.__('is not a typescript module'))
     if(config.trustAllCmd !== true && regevt.indexOf(file.slice(0, file.length - 3)) < 0) {
       return console.warn(i18n.__("Skipped registering event"),file,i18n.__("as it does not meet current trust requirements."))
     }

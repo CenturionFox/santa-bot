@@ -1,6 +1,21 @@
 {
     "compilerOptions": {
         "resolveJsonModule": true,
-        "esModuleInterop": true
-    }
+        "esModuleInterop": true,
+        "target": "es2017",
+        "outDir": "./bin",
+        "sourceMap": true,
+        "module": "commonjs"
+    },
+    "include": [
+        "src/**/*.ts",
+        "index.ts",
+        "reg*.json",
+        "config.json",
+        "locale/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "bin"
+    ]
 }
