@@ -64,6 +64,6 @@ export function getHeart() {
     "black_heart"
   ]
 
-  var i: number = Math.floor(Math.random() * hearts.length) + 1
+  var i: number = Math.floor(Math.random() * hearts.length)
   return `:${hearts[i]}:`
 }
