@@ -8,7 +8,10 @@
         "module": "commonjs"
     },
     "include": [
+        "api/**/*.ts",
         "src/**/*.ts",
+        "commands/*.ts",
+        "events/*.ts",
         "index.ts",
         "reg*.json",
         "config.json",

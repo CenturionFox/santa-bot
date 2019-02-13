@@ -1,15 +1,25 @@
-import config from '../../config.json'
-import Discord = require('discord.js')
+import config from '../config.json'
 import i18n = require('i18n')
-import { IEventHandler } from "../events"
-import sendWelcomeMessage from "../messages"
-import { runInThisContext } from 'vm';
+import {Client} from 'discord.js'
+import IEventHandler from '../api/iEventHandler'
+import { sendWelcomeMessage } from '../src/messages'
 
+/** Handles the ready event from the discord client */
 export default class ReadyHandler implements IEventHandler {
+    /** The name of the event */
   name: string = "ready"
 
-  constructor(public getCommands: Function, public client: Discord.Client) { }
-  handle(..._args: any[]) {
+  /**
+   * Creates a new instance of the ReadyHandler class
+   * @param getCommands A function to retrieve an enmap of all registed commands
+   * @param client The discord client instance
+   */
+  constructor(public getCommands: Function, public client: Client) { }
+
+  /**
+   * Handles the ready event
+   */
+  handle() {
     // register error handlers
     this.client.on("error", (e: string) => console.error(e))
     this.client.on("warn", (w: string) => console.warn(w))

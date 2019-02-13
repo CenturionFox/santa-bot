@@ -38,5 +38,7 @@
 	"Skipped registering event": "Skipped registering event",
 	"You can find out more by specifying one command specifically: ": "You can find out more by specifying one command specifically: ",
 	"You can find out more by specifying one command specifically": "You can find out more by specifying one command specifically",
-	"Sets the guild prefix to a custom value.  This command can only be used on a server, and you must have administrative privileges to use this command.":"Sets the guild prefix to a custom value.  This command can only be used on a server, and you must have administrative privileges to use this command."
+	"Sets the guild prefix to a custom value.  This command can only be used on a server, and you must have administrative privileges to use this command.": "Sets the guild prefix to a custom value.  This command can only be used on a server, and you must have administrative privileges to use this command.",
+	"Hi! I'm": "Hi! I'm",
+	"I'm sorry, but you can only set the prefix on a server that you have admin permissions on!": "I'm sorry, but you can only set the prefix on a server that you have admin permissions on!"
 }

@@ -1,15 +1,20 @@
 import config from '../config.json'
 import i18n = require('i18n')
-import Discord = require('discord.js')
-import { getPrefix } from './commands'
-import writeConfig from './configuration'
+import { Client, Guild, Message, TextChannel } from 'discord.js'
+import { getPrefix, writeConfig } from './configuration'
 
-export default function sendWelcomeMessage(client: Discord.Client, guild: Discord.Guild) {
+/**
+ * Sends a welcome message to a guild in the first channel the bot has write access to,
+ * for use when the bot joins or is first run on a guild
+ * @param client The discord client instance
+ * @param guild The guild to welcome
+ */
+export function sendWelcomeMessage(client: Client, guild: Guild) {
   if (config.welcome.enabled === true) {
     if (config.welcome.guilds[guild.id] !== true) {
       guild.channels.forEach(channel => {
         if (channel.type === "text") {
-          var textChannel = channel as Discord.TextChannel;
+          var textChannel = channel as TextChannel;
           var me = guild.members.get(client.user.id)
           if (textChannel.memberPermissions(me).has("SEND_MESSAGES")) {
             var message = i18n.__('Hello everyone!').concat(' ').concat(me.displayName).concat(' ').concat(i18n.__(", the Secret Santa bot here.")).concat('\r\n')
@@ -26,7 +31,12 @@ export default function sendWelcomeMessage(client: Discord.Client, guild: Discor
   }
 }
 
-export function sendGeneralHelpMessage(client: Discord.Client, message: Discord.Message) {
+/**
+ * Sends a general help message to one lucky person, either on a guild or in a DM
+ * @param client The discord client instance
+ * @param message The message to reply to
+ */
+export function sendGeneralHelpMessage(client: Client, message: Message) {
   var helpMessage: string
   var prefix = getPrefix(message.guild)
 
@@ -40,12 +50,15 @@ export function sendGeneralHelpMessage(client: Discord.Client, message: Discord.
   helpMessage = helpMessage.concat(', ').concat(i18n.__("the secret santa bot!")).concat('\r\n')
     .concat(i18n.__("To list all the commands that I can understand, just send")).concat(' `').concat(prefix).concat('help --all` ').concat(i18n.__("to any channel I can read, or via direct message.")).concat('\r\n')
     .concat(i18n.__("You can also check out my documentation on")).concat(' https://www.github.com/centurionfox/santa-bot\r\n')
-    .concat(i18n.__("Thanks!")).concat(` ${getHeart()}`)
+    .concat(i18n.__("Thanks!")).concat(` :${getHeart()}:`)
   return message.reply(helpMessage)
 }
 
+/**
+ * Gets a heart reaction from a list of them!
+ */
 export function getHeart() {
-  var hearts = [
+  const hearts = [
     "heart",
     "yellow_heart",
     "green_heart",
@@ -63,7 +76,6 @@ export function getHeart() {
     "hearts",
     "black_heart"
   ]
-
-  var i: number = Math.floor(Math.random() * hearts.length)
-  return `:${hearts[i]}:`
+  const i: number = Math.floor(Math.random() * hearts.length)
+  return hearts[i]
 }
