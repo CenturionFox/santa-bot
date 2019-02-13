@@ -36,10 +36,10 @@ export default class MessageHandler implements IEventHandler {
     }
 
     var p_argv = yparser(m_argv, command.options)
-    console.debug(senderId, i18n.__("Execute"), c_name, p_argv)
+    console.debug(senderId, i18n.__("Execute"), c_name, m_argv.join(" "))
 
-    command.run(this.client, message, p_argv)
+    if(command.permCheck(message)) {
+      command.run(this.client, message, p_argv)
+    }
   }
-
-
 }
