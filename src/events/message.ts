@@ -11,7 +11,6 @@ export default class MessageHandler implements IEventHandler {
   constructor(public getCommands: Function, public client: Discord.Client) { }
 
   handle(message: Discord.Message, ..._args: any[]) {
-
     var prefix = getPrefix(message.guild) as string
 
     var parsedCommand = dcParser.parse(message, prefix);
@@ -22,10 +21,18 @@ export default class MessageHandler implements IEventHandler {
     var c_name = parsedCommand.command
     var command: ICommand = this.getCommands().get(c_name) as ICommand
 
-    const senderId = message.member.displayName.concat('@').concat(message.guild.id).concat(':')
+    var senderId: string
+
+    if(message.guild) {
+      senderId = message.member.displayName.concat('@').concat(message.guild.id).concat(':')
+    }
+    else {
+      senderId = message.author.username.concat('@').concat(this.client.user.id).concat(':')
+    }
+
 
     if(!command && !(c_name.startsWith(prefix) && (command = this.getCommands().get(c_name.slice(prefix.length)) as ICommand))) {
-      return console.warn(senderId, i18n.__("Command"), c_name, i18n.__("did not exist in the list of registered commands (prefix collision?)")) 
+      return console.warn(senderId, i18n.__("Command"), c_name, i18n.__("did not exist in the list of registered commands (prefix collision?)"))
     }
 
     var p_argv = yparser(m_argv, command.options)

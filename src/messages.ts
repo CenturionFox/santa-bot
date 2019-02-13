@@ -27,9 +27,43 @@ export default function sendWelcomeMessage(client: Discord.Client, guild: Discor
 }
 
 export function sendGeneralHelpMessage(client: Discord.Client, message: Discord.Message) {
-  var helpMessage = i18n.__("hi! I'm").concat(' ').concat(message.guild.members.get(client.user.id).displayName).concat(', ').concat(i18n.__("the secret santa bot!")).concat('\r\n')
-    .concat(i18n.__("To list all the commands that I can understand, just send")).concat(' `').concat(getPrefix(message.guild)).concat('help --all` ').concat(i18n.__("to any channel I can read.")).concat('\r\n')
+  var helpMessage: string
+  var prefix = getPrefix(message.guild)
+
+  if(!message.guild) {
+    helpMessage = i18n.__("Hi! I'm").concat(' ').concat(client.user.username)
+  }
+  else {
+    helpMessage = i18n.__("hi! I'm").concat(' ').concat(message.guild.members.get(client.user.id).displayName)
+  }
+
+  helpMessage = helpMessage.concat(', ').concat(i18n.__("the secret santa bot!")).concat('\r\n')
+    .concat(i18n.__("To list all the commands that I can understand, just send")).concat(' `').concat(prefix).concat('help --all` ').concat(i18n.__("to any channel I can read, or via direct message.")).concat('\r\n')
     .concat(i18n.__("You can also check out my documentation on")).concat(' https://www.github.com/centurionfox/santa-bot\r\n')
-    .concat(i18n.__("Thanks!")).concat(' :sparkling_heart:')
+    .concat(i18n.__("Thanks!")).concat(` ${getHeart()}`)
   return message.reply(helpMessage)
+}
+
+export function getHeart() {
+  var hearts = [
+    "heart",
+    "yellow_heart",
+    "green_heart",
+    "blue_heart",
+    "purple_heart",
+    "heart_exclamation",
+    "two_hearts",
+    "revolving_hearts",
+    "heartbeat",
+    "heartpulse",
+    "sparkling_heart",
+    "cupid",
+    "gift_heart",
+    "heart_decoration",
+    "hearts",
+    "black_heart"
+  ]
+
+  var i: number = Math.floor(Math.random() * hearts.length) + 1
+  return `:${hearts[i]}:`
 }

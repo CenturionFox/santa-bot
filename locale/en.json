@@ -5,7 +5,7 @@
 	"hi! I'm": "hi! I'm",
 	"the secret santa bot!": "the secret santa bot!",
 	"To list all the commands that I can understand, just send": "To list all the commands that I can understand, just send",
-	"to any channel I can read.": "to any channel I can read.",
+	"to any channel I can read, or via direct message.": "to any channel I can read, or via direct message.",
 	"all": "all",
 	"the guild prefix has been changed to": "the guild prefix has been changed to",
 	"you must specify a new prefix.": "you must specify a new prefix.",
@@ -38,5 +38,5 @@
 	"Skipped registering event": "Skipped registering event",
 	"You can find out more by specifying one command specifically: ": "You can find out more by specifying one command specifically: ",
 	"You can find out more by specifying one command specifically": "You can find out more by specifying one command specifically",
-	"Sets the guild prefix to a custom value.  You must have administrative privileges to use this command.": "Sets the guild prefix to a custom value.  __You must have administrative privileges to use this command.__"
+	"Sets the guild prefix to a custom value.  This command can only be used on a server, and you must have administrative privileges to use this command.":"Sets the guild prefix to a custom value.  This command can only be used on a server, and you must have administrative privileges to use this command."
 }
