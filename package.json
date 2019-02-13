@@ -15,6 +15,7 @@
     "discord"
   ],
   "author": "satyrnidae",
+  "repository": "https://github.com/centurionfox/santa-bot",
   "license": "MIT",
   "dependencies": {
     "@types/i18n": "^0.8.3",
