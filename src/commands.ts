@@ -16,7 +16,7 @@ export interface ICommand {
   syntax: string
   /** The command description. This is used when providing help information. */
   description: string
-
+  /** command line args parse options */
   options: yparser.Options
 
   /**
@@ -26,6 +26,12 @@ export interface ICommand {
    * @param m_argv - The parsed command arguments
    */
   run(client: Discord.Client, message: Discord.Message, args: yparser.Arguments): any;
+
+  /**
+   * Returns a boolean value based on the message which is used to
+   * @param member
+   */
+  permCheck(message: Discord.Message): boolean;
 }
 
 /**
@@ -41,9 +47,9 @@ export class HelpCommand implements ICommand {
   description: string = i18n.__('Provides a detailed overview of any command registered with the bot.')
 
   options: yparser.Options = {
-    alias: { 
-      command: ['-c'], 
-      all: ['-a'] 
+    alias: {
+      command: ['-c'],
+      all: ['-a']
     },
     string: ['command'],
     configuration: {
@@ -58,7 +64,7 @@ export class HelpCommand implements ICommand {
   constructor(public getCommands: Function) { }
 
   /** Executes the command */
-  public run(client: Discord.Client, message: Discord.Message, args: yparser.Arguments): any {
+  run(client: Discord.Client, message: Discord.Message, args: yparser.Arguments): any {
     var commands: Enmap<string, ICommand> = this.getCommands()
     var prefix = getPrefix(message.guild)
 
@@ -91,6 +97,10 @@ export class HelpCommand implements ICommand {
       return message.channel.send(helpMessage)
     }
     message.reply(i18n.__("I don't know the command").concat(' "').concat(commandName).concat('"!'))
+  }
+
+  permCheck(_: Discord.Message): boolean {
+    return true;
   }
 }
 

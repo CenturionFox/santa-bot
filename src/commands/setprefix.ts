@@ -20,16 +20,25 @@ export default class SetPrefixCommand implements ICommand {
   }
 
   run(_client: Discord.Client, message: Discord.Message, args: yparser.Arguments) {
-
-    if(!message.guild) return message.reply(i18n.__("I'm sorry, but you can only set the prefix on a server that you have admin permissions on!"))
-
-    if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply(i18n.__('you do not have permission to change the guild prefix!'))
-
     var prefix: string = (args['prefix'] || args._[0]) as string
     if (!prefix) return message.reply(i18n.__('you must specify a new prefix.'))
 
     config.prefix[message.guild.id] = prefix
     writeConfig(config)
     message.reply(i18n.__('the guild prefix has been changed to').concat(' "').concat(getPrefix(message.guild)).concat('"'))
+  }
+
+  permCheck(message: Discord.Message): boolean {
+    if(!message.guild) {
+      message.reply(i18n.__("I'm sorry, but you can only set the prefix on a server that you have admin permissions on!"))
+      return false
+    }
+
+    if (!message.member.hasPermission('ADMINISTRATOR')) {
+      message.reply(i18n.__('you do not have permission to change the guild prefix!'))
+      return false;
+    }
+
+    return true;
   }
 }
