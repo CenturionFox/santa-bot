@@ -18,7 +18,7 @@ i18n.configure({
 var client = new Client()
 
 var commandRegistry = new CommandRegistry()
-var eventBus = new EventBus(client)
+var eventBus = new EventBus(client, () => commandRegistry.commands)
 
 const cmdDir = `${__dirname}/commands/`
 fs.readdir(cmdDir, (err, items) => {
@@ -52,7 +52,7 @@ fs.readdir(evtDir, (err, items) => {
 
     try {
       const module = require(`${evtDir}${file}`)
-      const event: IEventHandler = new module.default(() => commandRegistry, client) as IEventHandler
+      const event: IEventHandler = new module.default() as IEventHandler
       eventBus.register(event)
       return console.debug(i18n.__('Successfully registered event handler'),event.name)
     } catch (ex) {

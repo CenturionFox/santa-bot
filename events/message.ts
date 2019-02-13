@@ -12,18 +12,13 @@ export default class MessageHandler implements IEventHandler {
     name: string = "message"
 
     /**
-     * Creates a new instance of the MessageHandler class
+     * Handles the message events.
      * @param getCommands A function used to retrieve an enmap of all registered commands
      * @param client The discord client instance
-     */
-    constructor(public getCommands: Function, public client: Client) { }
-
-    /**
-     * Handles the message events.
      * @param message The message to handle
      * @param _args All other arguments
      */
-    handle(message: Message) {
+    handle(getCommands: Function, client: Client, message: Message, ..._args: any[]) {
         var prefix = getPrefix(message.guild) as string
 
         var parsedCommand = dcParser.parse(message, prefix);
@@ -32,7 +27,7 @@ export default class MessageHandler implements IEventHandler {
 
         const m_argv = parsedCommand.arguments
         var c_name = parsedCommand.command
-        var command: ICommand = this.getCommands().get(c_name) as ICommand
+        var command: ICommand = getCommands().get(c_name) as ICommand
 
         var senderId: string
 
@@ -41,10 +36,10 @@ export default class MessageHandler implements IEventHandler {
             senderId = message.member.displayName.concat('@').concat(message.guild.id).concat(':')
         }
         else {
-            senderId = message.author.username.concat('@').concat(this.client.user.id).concat(':')
+            senderId = message.author.username.concat('@').concat(client.user.id).concat(':')
         }
 
-        if (!command && !(c_name.startsWith(prefix) && (command = this.getCommands().get(c_name.slice(prefix.length)) as ICommand))) {
+        if (!command && !(c_name.startsWith(prefix) && (command = getCommands().get(c_name.slice(prefix.length)) as ICommand))) {
             return console.warn(senderId, i18n.__("Command"), c_name, i18n.__("did not exist in the list of registered commands (prefix collision?)"))
         }
 
@@ -53,7 +48,7 @@ export default class MessageHandler implements IEventHandler {
 
         // Check perms and execute
         if (command.permCheck(message)) {
-            command.run(this.client, message, p_argv)
+            command.run(client, message, p_argv)
         }
     }
 }

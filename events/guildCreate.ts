@@ -9,19 +9,14 @@ export default class GuildCreateEventHandler implements IEventHandler {
     name: string = "guildCreate";
 
     /**
-     * Creates a new instance of the GuildCreateEventHandler
-     * @param getCommands A function to return an enmap of all bot commands
-     * @param client The discord client instance
-     */
-    constructor(public getCommands: Function, public client: Client) { }
-
-    /**
      * Handles the guild join message
+     * @param _getCommands Unused. A function that returns an enmap containing all registered commands
+     * @param client The discord client
      * @param guild The guild that the bot is joining.
      * @param _args Unused.  Any further arguments.
      */
-    handle(guild: Guild) {
-        sendWelcomeMessage(this.client, guild);
+    handle(_getCommands: Function, client: Client, guild: Guild, ..._args: any[]) {
+        sendWelcomeMessage(client, guild);
 
         if (config.nickname && config.nickname !== "") {
             guild.me.setNickname(config.nickname)
