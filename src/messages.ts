@@ -49,7 +49,7 @@ export function sendGeneralHelpMessage(client: Client, message: Message) {
 
   helpMessage = helpMessage.concat(', ').concat(i18n.__("the secret santa bot!")).concat('\r\n')
     .concat(i18n.__("To list all the commands that I can understand, just send")).concat(' `').concat(prefix).concat('help --all` ').concat(i18n.__("to any channel I can read, or via direct message.")).concat('\r\n')
-    .concat(i18n.__("You can also check out my documentation on")).concat(' https://www.github.com/centurionfox/santa-bot\r\n')
+    .concat(i18n.__("You can also check out my documentation on")).concat(' <https://www.github.com/centurionfox/santa-bot>\r\n')
     .concat(i18n.__("Thanks!")).concat(` :${getHeart()}:`)
   return message.reply(helpMessage)
 }
