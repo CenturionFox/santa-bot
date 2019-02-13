@@ -28,8 +28,6 @@ export default class MessageHandler implements IEventHandler {
       return console.warn(senderId, i18n.__("Command"), c_name, i18n.__("did not exist in the list of registered commands (prefix collision?)")) 
     }
 
-    message.acknowledge()
-
     var p_argv = yparser(m_argv, command.options)
     console.debug(senderId, i18n.__("Execute"), c_name, p_argv)
 
